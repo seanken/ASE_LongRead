@@ -18,6 +18,7 @@ public class Long_ASE_Count
     protected HashMap<String,Integer> counts;
     protected int Good;
     protected int Bad;
+    protected int numRem;
     protected String gene_tag;
     protected String umi_tag;
 
@@ -51,7 +52,7 @@ public class Long_ASE_Count
         int iter=0;
         this.Good=0;
         this.Bad=0;
-
+        this.numRem=0;
 
         this.UMIMap=new HashMap<String, String>(); 
 
@@ -62,8 +63,9 @@ public class Long_ASE_Count
             {
                 System.out.println(this.Good);
                 System.out.println(this.Bad);
+                System.out.println(this.numRem);
                 System.out.println((float)this.Good/(float)(this.Good+this.Bad));
-                System.out.println((float)Good/(float)(iter));
+                System.out.println((float)this.Good/(float)(iter));
                 System.out.println(iter);
             }
 
@@ -89,47 +91,47 @@ public class Long_ASE_Count
 
 
 
-        //Saves the UMI counts 
-        public void saveCounts() throws Exception
-        {
-            Iterator<String> it_cnt=this.counts.keySet().iterator();
+    //Saves the UMI counts 
+    public void saveCounts() throws Exception
+    {
+        Iterator<String> it_cnt=this.counts.keySet().iterator();
 
-            while (it_cnt.hasNext()) {
-                String key=it_cnt.next();
-                Integer val=this.counts.get(key);
+        while (it_cnt.hasNext()) {
+            String key=it_cnt.next();
+            Integer val=this.counts.get(key);
 
-                String res=key+" "+Integer.toString(val);
-                this.savFil.write(res+ System.lineSeparator());
-
-            }
+            String res=key+" "+Integer.toString(val);
+            this.savFil.write(res+ System.lineSeparator());
 
         }
 
-        //Takes the internal UMIMAP object and gets UMI count information from it
-        public void UMIMAPtoCounts()
-        {
-            this.counts=new HashMap<String,Integer>();
-            Iterator<String> it=this.UMIMap.keySet().iterator();
+    }
+
+    //Takes the internal UMIMAP object and gets UMI count information from it
+    public void UMIMAPtoCounts()
+    {
+        this.counts=new HashMap<String,Integer>();
+        Iterator<String> it=this.UMIMap.keySet().iterator();
 
 
-            while (it.hasNext()) {
-                String key=it.next();
-                String val=this.UMIMap.get(key);
-                String[] split=key.split(" ");
-                String cbc=split[1];
-                String gene=split[2];
-                //String allele=split[3];
-                String res=cbc+" "+gene+" "+val;
-                //savFil.write(res+ System.lineSeparator());
-                if(!this.counts.containsKey(res))
-                {
-                    this.counts.put(res,0);
-                }
-
-                this.counts.put(res,this.counts.get(res)+1);
-
+        while (it.hasNext()) {
+            String key=it.next();
+            String val=this.UMIMap.get(key);
+            String[] split=key.split(" ");
+            String cbc=split[1];
+            String gene=split[2];
+            //String allele=split[3];
+            String res=cbc+" "+gene+" "+val;
+            //savFil.write(res+ System.lineSeparator());
+            if(!this.counts.containsKey(res))
+            {
+                this.counts.put(res,0);
             }
+
+            this.counts.put(res,this.counts.get(res)+1);
+
         }
+    }
 
 
 
@@ -169,6 +171,12 @@ public class Long_ASE_Count
             String geno=split_line[genoPos];
             String[] split_geno=geno.split(":");
             geno=split_geno[0];
+
+            if(ref.length()>1 || alt.length()>1)
+            {
+                continue;
+            }
+                
 
             chrom=chrom.replace("chr","");
 
@@ -235,6 +243,7 @@ public class Long_ASE_Count
         {
             return;
         }
+        this.numRem=this.numRem+1;
 
         //getReferencePositionAtReadPosition
         int start=read.getStart();

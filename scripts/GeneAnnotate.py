@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 import sys
 import pysam
 
-def AnnotBam(bam,gene_ann,outfile,verbose=False):
+def AnnotBam(bam,gene_ann,outfile,useRQ=False,verbose=False):
 	samfile=pysam.AlignmentFile(bam, "rb")
 	outbam=pysam.AlignmentFile(outfile,"wb",template=samfile)	
 	genefil=open(gene_ann,"r")
@@ -13,9 +14,10 @@ def AnnotBam(bam,gene_ann,outfile,verbose=False):
 			if verbose:
 				print("Iteration: "+ str(iterat));
 		geneInfo=genefil.readline().strip().split();
-		rq=seq.get_tag("rq") ##read quality check
-		if rq<.99:
-			continue;
+		if useRQ:
+			rq=seq.get_tag("rq"); ##read quality check
+			if rq<.99:
+				continue;
 		gene=geneInfo[3]
 		numAssign=int(geneInfo[2])
 		assign=geneInfo[1]
@@ -39,6 +41,9 @@ if __name__=="__main__":
 	bam=args[1]
 	gene_ann=args[2]
 	outbam=args[3]
-
-	AnnotBam(bam,gene_ann,outbam,verbose=True)
+	method=args[4]
+	useRQ=False
+	if method=="MAS":
+		useRQ=True
+	AnnotBam(bam,gene_ann,outbam,useRQ,verbose=True)
 
