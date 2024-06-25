@@ -42,6 +42,8 @@ Will produce many ouputs in the outdirectory, including an annotated bam (annota
 
 If instead of gene level results on wants isoform level resutls (including premrna as a seperate isoform for each gene) one can use ASEFromBamTrans.nf. Same arguments, except no strand argument (ignores strand).
 
+Note the above uses a premapped bam. We also have IsoformLevelASE_MAS.nf which is similiar, except it builds a isoform reference (including premrna) and maps to that. Note both are experimental, will likely improve with time.
+
 ## Required packages to run
 
 In order to run the above ASE pipelines, need the following on the path:
@@ -51,3 +53,7 @@ In order to run the above ASE pipelines, need the following on the path:
 4) python with pysam, intervaltree, pandas, numpy, and scipy installed for isoform level analysis
 
 For the Revio upstream pipeline need lima, isoseq, samtools, and minimap2.
+
+## Other code
+
+The script RunPip.sh was used to run on our local system (UGER based).
