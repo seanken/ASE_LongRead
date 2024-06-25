@@ -9,6 +9,7 @@ params.vcf_col // sample name in the vcf to use
 params.umi_tag="Jr" //tag in the bam used for UMI
 params.cbc_tag="Jp" //tag in the bam used for CBC
 params.method="MAS"
+params.strand=2
 
 //prepare VCF for downstream
 process PrepVCF
@@ -42,6 +43,7 @@ process FeatureCount_intron
     input:
     path gtf, stageAs:"genes.gtf" from params.gtf
     path bam, stageAs:"Aligned.sortedByCoord.out.bam" from params.bam
+    env strand from params.strand
 
     output:
     path "gene_assigned" into gene_intron_assign
@@ -49,7 +51,7 @@ process FeatureCount_intron
     path "Aligned.sortedByCoord.out.bam.featureCounts" into read_gene_ann
 
     '''
-    featureCounts -a genes.gtf -L -t gene -g gene_name -o gene_assigned -s 2 -R CORE Aligned.sortedByCoord.out.bam
+    featureCounts -a genes.gtf -L -t gene -g gene_name -o gene_assigned -s $strand -R CORE Aligned.sortedByCoord.out.bam
     '''
 }
 
@@ -61,13 +63,14 @@ process FeatureCount_exon
     input:
     path gtf, stageAs:"genes.gtf" from params.gtf
     path bam, stageAs:"Aligned.sortedByCoord.out.bam" from params.bam
+    env strand from params.strand
 
     output:
     path "gene_assigned" into gene_exon_assign
     path "gene_assigned.summary" into gene_exon_assign_summary
 
     '''
-    featureCounts -a genes.gtf -L -t exon -g gene_name -o gene_assigned -s 2 Aligned.sortedByCoord.out.bam
+    featureCounts -a genes.gtf -L -t exon -g gene_name -o gene_assigned -s $strand Aligned.sortedByCoord.out.bam
     '''
 }
 
