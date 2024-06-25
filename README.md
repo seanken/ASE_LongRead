@@ -18,7 +18,7 @@ which would output a processed bam in output.
 
 For extracting gene level ASE from long read data we use ASEFromBam.nf (ASEFromBam.Revio.nf is the same, except has strand hard coded to 1). The options are:
 
-`--bam`: The input bam. Must be mapped to the reference and sorted by genomic position, and have CBC/UMI information as tags.
+`--bam`: The input bam. Must be mapped to the reference and sorted by genomic position, and have CBC/UMI information as tags. Assumes has tp tag as in minimap2 output (the pipeline uses all primary alignments).
 
 `--gtf`: A gtf with information about the transcriptome.
 
@@ -32,7 +32,7 @@ For extracting gene level ASE from long read data we use ASEFromBam.nf (ASEFromB
 
 `--cbc_tag`: The tag in the bam with cbc information.
 
-`--method`: The method used, either MAS or Long. Same, except with MAS uses the rq tag to filter out low qualty reads. 
+`--method`: The method used, either MAS or Long. Same, except with MAS uses the rq tag to filter out low qualty reads. In general should use Long, MAS only meant for longbow output. 
 
 `--strand`: The strand to use (default 2, with the MAS-Seq pipeline we shared should use 1 instead).
 

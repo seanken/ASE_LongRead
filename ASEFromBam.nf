@@ -8,7 +8,7 @@ params.input_vcf //vcf used
 params.vcf_col // sample name in the vcf to use
 params.umi_tag="Jr" //tag in the bam used for UMI
 params.cbc_tag="Jp" //tag in the bam used for CBC
-params.method="MAS"
+params.method="Long"
 params.strand=2
 
 //prepare VCF for downstream
