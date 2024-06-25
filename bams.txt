@@ -1,4 +1,0 @@
-/stanley/levin_asap_storage/MASseq/m64297e_220706_161125.bam
-/stanley/levin_asap_storage/MASseq/m64297e_220708_013849.bam
-/stanley/levin_asap_storage/MASseq/m64297e_220711_182747.bam
-/stanley/levin_asap_storage/MASseq/m64345e_220712_195752.bam
