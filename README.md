@@ -57,3 +57,5 @@ For the Revio upstream pipeline need lima, isoseq, samtools, and minimap2.
 ## Other code
 
 The script RunPip.sh was used to run on our local system (UGER based).
+
+This work was funded by Aligning Science Across Parkinson's [grant # ASAP-000301] through the Michael J. Fox Foundation for Parkinson's Research (MJFF).
